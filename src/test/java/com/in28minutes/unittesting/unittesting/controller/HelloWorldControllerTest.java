@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * application 실행하지 않고 해당 컨트롤러 테스트 가능
@@ -32,11 +34,28 @@ public class HelloWorldControllerTest {
                 .get("/hello-world")
                 .accept(MediaType.APPLICATION_JSON);
 
-        MvcResult mvcResult = mockMvc.perform(request).andReturn();
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string("Hello World"))
+                .andReturn();
 
         // verify "Hello World"
         assertEquals("Hello World", mvcResult.getResponse().getContentAsString()); // toString() 호출하니 주소값 가져와서 fail
         assertEquals(200, mvcResult.getResponse().getStatus());
         assertEquals(MediaType.APPLICATION_JSON.toString(), mvcResult.getResponse().getContentType());
     }
+
+    @Test
+    public void helloWorld_improve_UsingMockMvcResultMatchers() throws Exception {
+        // call "/hello-world" url GET application/json
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/hello-world")
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult mvcResult = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(content().string("Hello World"))
+                .andReturn();
+
+     }
 }
