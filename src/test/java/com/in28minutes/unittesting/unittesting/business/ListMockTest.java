@@ -9,12 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ListMockTest {
 
-    List mock = mock(List.class);
+    List<String> mock = mock(List.class);
 
     @Test
     public void size_basic() {
@@ -51,5 +50,21 @@ public class ListMockTest {
         when(mock.get(anyInt())).thenReturn("in28Minutes"); // ArgumentMatchers.class 참고
         assertEquals("in28Minutes", mock.get(0));
         assertEquals("in28Minutes", mock.get(1));
+    }
+
+    // https://beststar-1.tistory.com/30
+    @DisplayName("테스트 하고자 하는 메서드가 의도대로 동작했는지 검증")
+    @Test
+    public void verificationBasics() {
+        String value = mock.get(0);
+
+        //Verify. 결국 mock 객체가 get(0) 호출했는지 검증하는거네.
+        verify(mock).get(0);
+        verify(mock).get(anyInt());
+        verify(mock, times(1)).get(anyInt()); // 한번 호출했는가
+        verify(mock, atLeast(1)).get(anyInt());
+        verify(mock, atLeastOnce()).get(anyInt());
+        verify(mock, atMost(2)).get(anyInt());
+        verify(mock, never()).get(2); // 2번 호출 하지 않았다.
     }
 }
