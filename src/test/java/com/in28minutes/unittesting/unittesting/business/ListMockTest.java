@@ -81,4 +81,20 @@ public class ListMockTest {
 
         assertEquals("SomeString", captor.getValue()); // true
     }
+
+    @DisplayName("multiple argument capture")
+    @Test
+    public void multipleArgumentCapturing() {
+        // SUT
+        mock.add("SomeString1");
+        mock.add("SomeString2");
+
+        // Verification
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(mock, times(2)).add(captor.capture()); // verify : 증명하다, mock 객체가 add() 실행시 argument 를 확인하는 용도 (times(2), 두번)
+
+        List<String> allValues = captor.getAllValues(); // List<T> 형태 return
+        assertEquals("SomeString1", allValues.get(0));
+        assertEquals("SomeString2", allValues.get(1));
+    }
 }
