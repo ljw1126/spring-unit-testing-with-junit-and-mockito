@@ -4,10 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -96,5 +97,43 @@ public class ListMockTest {
         List<String> allValues = captor.getAllValues(); // List<T> 형태 return
         assertEquals("SomeString1", allValues.get(0));
         assertEquals("SomeString2", allValues.get(1));
+    }
+
+    @Test
+    public void mocking() {
+        ArrayList arrayListMock = mock(ArrayList.class);
+        System.out.println(arrayListMock.get(0)); // null;
+        System.out.println(arrayListMock.size()); // 0
+
+        arrayListMock.add("test");
+        arrayListMock.add("test2");
+
+        System.out.println(arrayListMock.size()); // 0 ( ? , mock 객체에는 안 들어가나봄.. stubbing 되는 경우만 인식 하는 듯)
+
+        when(arrayListMock.size()).thenReturn(5);
+        System.out.println(arrayListMock.size()); // 5
+    }
+
+    @Test
+    public void spying() {
+        ArrayList arrayListSpy = spy(ArrayList.class);
+
+        //System.out.println(arrayListSpy.get(0)); // index out of expection
+        assertThrows(IndexOutOfBoundsException.class, () -> {arrayListSpy.get(0);});
+        arrayListSpy.add("test0");
+        System.out.println(arrayListSpy.size()); // 1
+
+        arrayListSpy.add("test1");
+        arrayListSpy.add("test2");
+
+        System.out.println(arrayListSpy.size()); // 3
+
+        when(arrayListSpy.size()).thenReturn(5);
+        System.out.println(arrayListSpy.size()); // 5
+
+        arrayListSpy.add("test4");
+        System.out.println(arrayListSpy.size()); // 5 , 이게 stubbing 되고 나면 안 변하는 듯
+
+        verify(arrayListSpy).add("test4"); // arrayListSpy에 add("test4")가 되었는지 증명 -> "test5" 확인시 Argument(s) are different! 에러 출력
     }
 }
