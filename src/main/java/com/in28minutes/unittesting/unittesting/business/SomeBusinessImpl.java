@@ -5,10 +5,14 @@ import com.in28minutes.unittesting.unittesting.data.SomeDataService;
 public class SomeBusinessImpl {
 
     private SomeDataService someDataService;
-
+    // 생성자 주입방식
+    public SomeBusinessImpl(SomeDataService someDataService) {
+        this.someDataService = someDataService;
+    }
+    // 요렇게 한 세트
     public SomeBusinessImpl(){}
 
-    public SomeBusinessImpl(SomeDataService someDataService) {
+    public void setSomeDataService(SomeDataService someDataService) {
         this.someDataService = someDataService;
     }
 
