@@ -15,19 +15,19 @@ public class ItemController {
 	@Autowired
 	private ItemBusinessService businessService;
 
-	@GetMapping("/dummy-item")
+	//@GetMapping("/dummy-item")
 	public Item dummyItem() {
 		return new Item(1, "Ball", 10, 100);
 	}
 	
-	@GetMapping("/item-from-business-service")
+	//@GetMapping("/item-from-business-service")
 	public Item itemFromBusinessService() {
 		Item item = businessService.retreiveHardcodedItem();
 		
 		return item;
 	}
 	
-	@GetMapping("/all-items-from-database")
+	//@GetMapping("/all-items-from-database")
 	public List<Item> retrieveAllItems() {
 		return businessService.retrieveAllItems();
 	}
