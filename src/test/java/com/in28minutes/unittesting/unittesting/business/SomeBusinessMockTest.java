@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -14,16 +18,18 @@ import static org.mockito.Mockito.when;
 
 /**
  * Mockito simple to use
+ * Note.
+ * 1. junit5 using @ExtendWith(MockitoExtension.class) instead of @RunWith(MockitoJUnitRunner.class), junit4
  */
+@ExtendWith(MockitoExtension.class)
 class SomeBusinessMockTest {
-    SomeBusinessImpl business = new SomeBusinessImpl();
-    SomeDataService dataServiceMock = mock(SomeDataService.class);
 
-    //@Before - junit4
-    @BeforeEach
-    void before() {
-        business.setSomeDataService(dataServiceMock);
-    }
+    // NOTE. @BeforeEach 통해 직접 주입을 안 해도 됨
+    @InjectMocks
+    SomeBusinessImpl business;
+
+    @Mock
+    SomeDataService dataServiceMock = mock(SomeDataService.class);
 
     @DisplayName("Mock 사용하여 simple 인터페이스 구현")
     @Test
