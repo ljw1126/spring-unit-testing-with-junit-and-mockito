@@ -2,6 +2,7 @@ package com.in28minutes.unittesting.unittesting.business;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 import java.util.List;
 
@@ -66,5 +67,18 @@ public class ListMockTest {
         verify(mock, atLeastOnce()).get(anyInt());
         verify(mock, atMost(2)).get(anyInt());
         verify(mock, never()).get(2); // 2번 호출 하지 않았다.
+    }
+
+    @DisplayName("argument capture")
+    @Test
+    public void argumentCapturing() {
+        // SUT
+        mock.add("SomeString");
+
+        // Verification
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(mock).add(captor.capture()); // verify : 증명하다, mock 객체가 add() 실행시 argument 를 확인하는 용도 같음
+
+        assertEquals("SomeString", captor.getValue()); // true
     }
 }
