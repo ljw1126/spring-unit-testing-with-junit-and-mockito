@@ -1,11 +1,9 @@
 package com.in28minutes.unittesting.unittesting.controller;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -32,8 +30,10 @@ public class ItemControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(content().json("{\"id\": 1,\"name\":\"Ball\",\"price\":10,\"quantity\":100}"))
 				.andReturn();
+
+		//JSON 검사 위한 유용한 프레임워크(spring boot test에 포함)
 		//JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
-		
+
 	}
 
 
