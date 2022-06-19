@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * https://webcoding-start.tistory.com/20
  */
 @DataJpaTest
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 class ItemRepositoryTest {
 
     @Autowired
