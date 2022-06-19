@@ -15,9 +15,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 
+import static org.junit.matchers.JUnitMatchers.containsString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(value = ItemController.class)
 public class ItemControllerTest {
@@ -97,5 +98,28 @@ public class ItemControllerTest {
 				.andReturn();
 	}
 
+	/**
+	 * Response Status Sample
+	 * 200 - success
+	 * 404 - resource not found
+	 * 400 - bad request
+	 * 201 - created
+	 * 401 - unauthorized
+	 * 500 - server error
+	 */
+	@DisplayName("post 방식 테스트 샘플")
+	@Test
+	public void post_request_test_sample() throws Exception {
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/items")
+				.accept(MediaType.APPLICATION_JSON)
+				.content("{id:1, name:Ball, price:10, quantity:100}")
+				.contentType(MediaType.APPLICATION_JSON);
+
+		// @Deprecated 된 메소드가 있네
+		MvcResult mvcResult = mockMvc.perform(requestBuilder)
+				.andExpect(status().isCreated())
+				.andExpect(header().string("location", contains("/item/")))
+				.andReturn();
+	}
 
 }
