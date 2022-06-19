@@ -16,6 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
  * 에러. org.junit.runners.model.InvalidTestClassError: Invalid test class
  * 해결. @Test import 잘못됨.. jupiter 말고 org.junit.Test 사용해야 함
  * 참고. https://stackoverflow.com/questions/24319697/java-lang-exception-no-runnable-methods-exception-in-running-junits
+ *
+ * 통합테스트 : layer 간에 의사소통이 예상한대로 원할한지 확인하기 위한 테스트
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // 임의 포트
 @RunWith(SpringRunner.class)
