@@ -24,10 +24,10 @@ public class ItemController {
     public Item itemFromBusinessService() {
         return businessService.retreiveHardcodedItem();
     }
-/*
+
     @GetMapping("/all-items-from-database")
     public List<Item> retrieveAllItems() {
         return businessService.retrieveAllItems();
-    }*/
+    }
 
 }

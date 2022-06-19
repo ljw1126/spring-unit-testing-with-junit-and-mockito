@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -71,6 +73,28 @@ public class ItemControllerTest {
 				.andExpect(content().json("{id:2,name:Item2,price:10,quantity:10}"))
 				.andReturn();
 
+	}
+
+	@DisplayName("AllItems 호출 기본 테스트 (DB 데이터 x)")
+	@Test
+	public void retrieveAllItems_basic() throws Exception {
+		/**
+		 * new Item(10001, "Item1", 10, 20),
+		 * new Item(10002, "Item2", 5, 10),
+		 * -new Item(10003, "Item3", 15, 2)
+		 */
+		when(businessService.retrieveAllItems()).thenReturn(
+				Arrays.asList(new Item(10001, "Item1", 10, 20), new Item(10002, "Item2", 5, 10))
+		);
+
+		RequestBuilder request = MockMvcRequestBuilders
+				.get("/all-items-from-database")
+				.accept(MediaType.APPLICATION_JSON);
+
+		MvcResult result = mockMvc.perform(request)
+				.andExpect(status().isOk())
+				.andExpect(content().json("[{id:10001,name:Item1,price:10,quantity:20},{id:10002,name:Item2,price:5,quantity:10}]"))
+				.andReturn();
 	}
 
 
